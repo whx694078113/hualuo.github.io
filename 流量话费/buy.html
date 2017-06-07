@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+    <!--STATUS OK-->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>流量充值</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="format-detection" content="telephone=no, email=no" />
+        <meta name="full-screen" content="yes">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-touch-fullscreen" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        
+
+
+        <script type="text/javascript">
+
+        ;(function(win, lib) {
+            var doc = win.document;
+            var docEl = doc.documentElement;
+            var metaEl = doc.querySelector('meta[name="viewport"]');
+            var flexibleEl = doc.querySelector('meta[name="flexible"]');
+            var dpr = 0;
+            var scale = 0;
+            var tid;
+            var flexible = lib.flexible || (lib.flexible = {});
+
+            if (metaEl) {
+                console.warn('将根据已有的meta标签来设置缩放比例');
+                var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
+                if (match) {
+                    scale = parseFloat(match[1]);
+                    dpr = parseInt(1 / scale);
+                }
+            } else if (flexibleEl) {
+                var content = flexibleEl.getAttribute('content');
+                if (content) {
+                    var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);
+                    var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
+                    if (initialDpr) {
+                        dpr = parseFloat(initialDpr[1]);
+                        scale = parseFloat((1 / dpr).toFixed(2));
+                    }
+                    if (maximumDpr) {
+                        dpr = parseFloat(maximumDpr[1]);
+                        scale = parseFloat((1 / dpr).toFixed(2));
+                    }
+                }
+            }
+
+            if (!dpr && !scale) {
+                var isAndroid = win.navigator.appVersion.match(/android/gi);
+                var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+                var devicePixelRatio = win.devicePixelRatio;
+                if (isIPhone) {
+                    // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+                    if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+                        dpr = 3;
+                    } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+                        dpr = 2;
+                    } else {
+                        dpr = 1;
+                    }
+                } else {
+                    // 其他设备下，仍旧使用1倍的方案
+                    dpr = 1;
+                }
+                scale = 1 / dpr;
+            }
+
+            docEl.setAttribute('data-dpr', dpr);
+            if (!metaEl) {
+                metaEl = doc.createElement('meta');
+                metaEl.setAttribute('name', 'viewport');
+                metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+                if (docEl.firstElementChild) {
+                    docEl.firstElementChild.appendChild(metaEl);
+                } else {
+                    var wrap = doc.createElement('div');
+                    wrap.appendChild(metaEl);
+                    doc.write(wrap.innerHTML);
+                }
+            }
+
+            function refreshRem(){
+                var width = docEl.getBoundingClientRect().width;
+                if (width / dpr > 540) {
+                    width = 540 * dpr;
+                }
+                // var rem = width / 10;
+                var rem = width / 7.5;
+                docEl.style.fontSize = rem + 'px';
+                flexible.rem = win.rem = rem;
+            }
+
+            win.addEventListener('resize', function() {
+                clearTimeout(tid);
+                tid = setTimeout(refreshRem, 300);
+            }, false);
+            win.addEventListener('pageshow', function(e) {
+                if (e.persisted) {
+                    clearTimeout(tid);
+                    tid = setTimeout(refreshRem, 300);
+                }
+            }, false);
+
+            // if (doc.readyState === 'complete') {
+            //     doc.body.style.fontSize = 12 * dpr + 'px';
+            // } else {
+            //     doc.addEventListener('DOMContentLoaded', function(e) {
+            //         doc.body.style.fontSize = 12 * dpr + 'px';
+            //     }, false);
+            // }
+
+
+            refreshRem();
+
+            flexible.dpr = win.dpr = dpr;
+            flexible.refreshRem = refreshRem;
+            flexible.rem2px = function(d) {
+                var val = parseFloat(d) * this.rem;
+                if (typeof d === 'string' && d.match(/rem$/)) {
+                    val += 'px';
+                }
+                return val;
+            }
+            flexible.px2rem = function(d) {
+                var val = parseFloat(d) / this.rem;
+                if (typeof d === 'string' && d.match(/px$/)) {
+                    val += 'rem';
+                }
+                return val;
+            }
+
+        })(window, window['lib'] || (window['lib'] = {}));
+
+        </script>
+    <link rel="stylesheet" href="css/global.css">
+    </head>
+    <body>
+       <span class="top-title">米兜流量-个人中心</span>
+       <section class="buy-flow">
+            <span class="buy-flow-way">话费支付买流量</span>
+            
+        <form action="" class="buy-flow-form" id="form">
+            <ul class="buy-flow-form-1">
+                <li class="buy-flow-form-2">
+                    <label class="flow-phone-label-1" for="">中国+86</label>
+                    <input id="ids" class="flow-phone-input-1" type="text" placeholder="请输入手机号码">
+                    
+                </li>
+                <li class="buy-flow-form-2">可填本机或他人号码    客服400-062-25515</li>
+            </ul>
+
+            <article class="buy-flow-form-3">
+                <section class="buy-flow-device"> 单日包</section>
+                <section class="buy-flow-device">疆内月包</section>
+                <section class="buy-flow-device">全国月包</section>
+            </article>
+
+            <ul class="buy-flow-form-4" style="display:block">
+                <li><span>1GB</span><label for="">本地 5元/日</label></li>
+                <li><span>1GB</span><label for="">本地 5元/日</label></li>
+                <li><span>1GB</span><label for="">本地 5元/日</label></li>
+            </ul>
+
+            <ul class="buy-flow-form-4" style="display:none">
+                <li><span>200MB</span></li>
+                <li><span>400mb</span></li>
+                <li><span>1GB</span></li>
+                <li><span>2GB</span></li>
+                <li><span>4gb</span></li>
+                <li><span>6gb</span></li>
+            </ul>
+
+            <ul class="buy-flow-form-4" style="display:none">
+                <li><span>100MB</span></li>
+                <li><span>300mb</span></li>
+                <li><span>500mb</span></li>
+                <li><span>1GB</span></li>
+                <li><span>2gb</span></li>
+                <li><span>3gb</span></li>
+            </ul>
+
+            
+
+            <ul class="buy-flow-form-5">
+                <li>话费支付5元买1GB</li>
+                <li>疆内可用&nbsp;限当日有效&nbsp;及时生效&nbsp;每日限充1次</li>
+            
+                <li id="formValidateMsg" class="mod-form-item-errorMsg"></li>
+                <li><input type="submit" value="立即生效"></li>
+            </ul>
+        </form>    
+       </section>
+
+
+
+
+    </body>
+</html>
+<script src="js/validator.js"></script>
+<script src="js/zepto.js"></script>
+<script>
+window.onload = function ()
+{
+    var oLi = document.getElementsByClassName("buy-flow-device");
+    var oUl = document.getElementsByClassName("buy-flow-form-4");
+    
+    for(var i = 0; i < oLi.length; i++)
+    {
+        oLi[i].index = i;
+        oLi[i].onclick = function ()
+        {
+            
+            for(var n = 0; n < oUl.length; n++) oUl[n].style.display = "none";
+            oUl[this.index].style.display = "block"
+        }   
+    }
+}
+
+$(function(){
+    var validateForm = {
+        _validateInit : function(){
+            var me = this,
+                validateRules = {
+                    'ids' : {
+                        rules : ['selectRequired'],
+                        desc : '手机号'
+                    }
+                };
+            this.validator = new Validator({
+                successCallback : me.validateSuccess,
+                errorCallback : me.validateError
+            });
+
+            this.validator.addRule('selectRequired',function(ele){
+                if(Number(ele.value) == '0'){
+                    return false;
+                } else {
+                    return true;
+                }
+            })
+
+            this.validator.addMsg('selectRequired','请您选择%s');
+
+            this.validator.init(validateRules);
+            this.validator.addRule;
+        },
+
+        validateSuccess : function(info , opt){
+
+        },
+        validateError : function(info,opt){
+            var me = this,
+                ele = $("#formValidateMsg");
+                if(ele.size() > 0){
+                    ele.show().html(info.msg)
+                } 
+                opt && opt.callback && callback();
+        }
+    };
+    var confirmTip;
+
+    validateForm._validateInit();
+
+    $("#form").on('submit',function(evt){
+        validateForm.validator.validateAll({
+            success : function(){
+
+            },
+            error : function(result){
+                evt.preventDefault();
+            }
+        },true);
+    })
+})
+</script>

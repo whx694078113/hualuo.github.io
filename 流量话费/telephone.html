@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+    <!--STATUS OK-->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>话费充值</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="format-detection" content="telephone=no, email=no" />
+        <meta name="full-screen" content="yes">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-touch-fullscreen" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        
+
+
+        <script type="text/javascript">
+
+        ;(function(win, lib) {
+            var doc = win.document;
+            var docEl = doc.documentElement;
+            var metaEl = doc.querySelector('meta[name="viewport"]');
+            var flexibleEl = doc.querySelector('meta[name="flexible"]');
+            var dpr = 0;
+            var scale = 0;
+            var tid;
+            var flexible = lib.flexible || (lib.flexible = {});
+
+            if (metaEl) {
+                console.warn('将根据已有的meta标签来设置缩放比例');
+                var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
+                if (match) {
+                    scale = parseFloat(match[1]);
+                    dpr = parseInt(1 / scale);
+                }
+            } else if (flexibleEl) {
+                var content = flexibleEl.getAttribute('content');
+                if (content) {
+                    var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);
+                    var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
+                    if (initialDpr) {
+                        dpr = parseFloat(initialDpr[1]);
+                        scale = parseFloat((1 / dpr).toFixed(2));
+                    }
+                    if (maximumDpr) {
+                        dpr = parseFloat(maximumDpr[1]);
+                        scale = parseFloat((1 / dpr).toFixed(2));
+                    }
+                }
+            }
+
+            if (!dpr && !scale) {
+                var isAndroid = win.navigator.appVersion.match(/android/gi);
+                var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+                var devicePixelRatio = win.devicePixelRatio;
+                if (isIPhone) {
+                    // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+                    if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+                        dpr = 3;
+                    } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+                        dpr = 2;
+                    } else {
+                        dpr = 1;
+                    }
+                } else {
+                    // 其他设备下，仍旧使用1倍的方案
+                    dpr = 1;
+                }
+                scale = 1 / dpr;
+            }
+
+            docEl.setAttribute('data-dpr', dpr);
+            if (!metaEl) {
+                metaEl = doc.createElement('meta');
+                metaEl.setAttribute('name', 'viewport');
+                metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+                if (docEl.firstElementChild) {
+                    docEl.firstElementChild.appendChild(metaEl);
+                } else {
+                    var wrap = doc.createElement('div');
+                    wrap.appendChild(metaEl);
+                    doc.write(wrap.innerHTML);
+                }
+            }
+
+            function refreshRem(){
+                var width = docEl.getBoundingClientRect().width;
+                if (width / dpr > 540) {
+                    width = 540 * dpr;
+                }
+                // var rem = width / 10;
+                var rem = width / 7.5;
+                docEl.style.fontSize = rem + 'px';
+                flexible.rem = win.rem = rem;
+            }
+
+            win.addEventListener('resize', function() {
+                clearTimeout(tid);
+                tid = setTimeout(refreshRem, 300);
+            }, false);
+            win.addEventListener('pageshow', function(e) {
+                if (e.persisted) {
+                    clearTimeout(tid);
+                    tid = setTimeout(refreshRem, 300);
+                }
+            }, false);
+
+            // if (doc.readyState === 'complete') {
+            //     doc.body.style.fontSize = 12 * dpr + 'px';
+            // } else {
+            //     doc.addEventListener('DOMContentLoaded', function(e) {
+            //         doc.body.style.fontSize = 12 * dpr + 'px';
+            //     }, false);
+            // }
+
+
+            refreshRem();
+
+            flexible.dpr = win.dpr = dpr;
+            flexible.refreshRem = refreshRem;
+            flexible.rem2px = function(d) {
+                var val = parseFloat(d) * this.rem;
+                if (typeof d === 'string' && d.match(/rem$/)) {
+                    val += 'px';
+                }
+                return val;
+            }
+            flexible.px2rem = function(d) {
+                var val = parseFloat(d) / this.rem;
+                if (typeof d === 'string' && d.match(/px$/)) {
+                    val += 'rem';
+                }
+                return val;
+            }
+
+        })(window, window['lib'] || (window['lib'] = {}));
+
+        </script>
+    <link rel="stylesheet" href="css/global.css">
+    </head>
+    <body>
+       <span class="top-title">中国电信充值交费</span>
+       <section class="telephone-recharge">
+            <article class="telephone-fixed">
+                <section class="telephone-nav1">手机充值</section>
+                <section class="telephone-nav1">固话充值</section>
+                <section class="telephone-nav1">宽带充值</section>
+            </article>
+
+
+            <div action="" class="telephone-form telephone-form-block">
+                <span class="telephone-form-span">充值号码</span>
+
+                <ul class="telephone-form1">
+                    <li><input type="text" class="telephone-form-input1" id="ids"></li>
+                    <li class="telephone-form-col">￥欠费查询</li>
+                </ul>
+
+                <span class="telephone-form-span">请选择充值金额</span>
+
+                <ul class="telephone-form-recharge">
+                    <li class="telephone-form2" value="10"><span>10元</span></li>
+                    <li class="telephone-form2" value="20"><span>20元</span></li>
+                    <li class="telephone-form2" value="30"><span>30元</span></li>
+                    <li class="telephone-form2" value="50"><span>50元</span></li>
+                    <li class="telephone-form2" value="100"><span>100元</span></li>
+                    <li class="telephone-form2" value="300"><span>300元</span></li>
+                </ul>
+
+              
+            </div>
+
+
+            <div action="" class="telephone-form" >
+                <span class="telephone-form-span" >选择地址</span>
+
+                <ul class="telephone-form1">
+                    <li>
+                        <select id="city" class="telephone-form-input1">
+                            <option value="0">请选择</option>
+                            <option value="01">乌鲁木齐</option>
+                            <option value="02">克拉玛依</option>
+                            <option value="03">吐鲁番</option>
+                            <option value="04">哈密</option>
+                            <option value="05">昌吉</option>
+                            <option value="06">博州</option>
+                            <option value="07">巴州</option>
+                        </select>
+                    </li>
+                </ul>
+                <span class="telephone-form-span">固定电话号码</span>
+
+                <ul class="telephone-form1">
+                    <li><input type="text" class="telephone-form-input1" id="name"></li>
+                </ul>
+
+
+                <span class="telephone-form-span">请选择充值金额</span>
+
+                <ul class="telephone-form-recharge">
+                    <li class="telephone-form2" value="10"><span>10元</span></li>
+                    <li class="telephone-form2" value="20"><span>20元</span></li>
+                    <li class="telephone-form2" value="30"><span>30元</span></li>
+                    <li class="telephone-form2" value="50"><span>50元</span></li>
+                    <li class="telephone-form2" value="100"><span>100元</span></li>
+                    <li class="telephone-form2" value="300"><span>300元</span></li>
+                </ul>
+
+            </div>
+             
+            <!--div action="" class="telephone-form" id="form1">
+                <span class="telephone-form-span" >选择地址</span>
+
+                <ul class="telephone-form1">
+                    <li>
+                        <select type="text" name="" id="city" class="telephone-form-input1"  id="city">
+                            <option value="">请选择</option>
+                            <option value="">乌鲁木齐</option>
+                            <option value="">克拉玛依</option>
+                            <option value="">吐鲁番</option>
+                            <option value="">哈密</option>
+                            <option value="">昌吉</option>
+                            <option value="">博州</option>
+                            <option value="">巴州</option>
+                        </select>
+                    </li>
+                </ul>
+                <span class="telephone-form-span">固定电话号码</span>
+
+                <ul class="telephone-form1">
+                    <li><input type="text" class="telephone-form-input1" id="phone"></li>
+                </ul>
+
+                <span class="telephone-form-span">请选择充值金额</span>
+
+                <ul class="telephone-form-recharge">
+                    <li class="telephone-form2" value="10"><span>10元</span></li>
+                    <li class="telephone-form2" value="20"><span>20元</span></li>
+                    <li class="telephone-form2" value="30"><span>30元</span></li>
+                    <li class="telephone-form2" value="50"><span>50元</span></li>
+                    <li class="telephone-form2" value="100"><span>100元</span></li>
+                    <li class="telephone-form2" value="300"><span>300元</span></li>
+                </ul>
+
+                <span class="telephone-form-span">请输入其他金额</span>
+
+                <ul class="telephone-form1">
+                    <li><input type="text" id="telephone-form3" class="telephone-form-input1 telephone-form3" value=""></li>
+                    <li>已选择充值金额，共计0元（享受返回0元）</li>
+                    <li id="formValidateMsg" class="mod-form-item-errorMsg"></li>
+                    <li><input type="submit" class="btn1" value="立即充值"></li>
+                </ul>
+            </div-->
+            
+         
+            <!--div action="" class="telephone-form">
+                <span class="telephone-form-span" >选择地址</span>
+
+                <ul class="telephone-form1">
+                    <li>
+                        <select type="text" name="" id="city" class="telephone-form-input1 "  >
+                            <option value="">请选择</option>
+                            <option value="">乌鲁木齐</option>
+                            <option value="">克拉玛依</option>
+                            <option value="">吐鲁番</option>
+                            <option value="">哈密</option>
+                            <option value="">昌吉</option>
+                            <option value="">博州</option>
+                            <option value="">巴州</option>
+                        </select>
+                    </li>
+                </ul>
+                <span class="telephone-form-span">固定电话号码</span>
+                
+                <ul class="telephone-form1">
+                    <li><input id="phone" type="text" class="telephone-form-input1"></li>
+                </ul>
+
+                <span class="telephone-form-span">请选择充值金额</span>
+
+                <ul class="telephone-form-recharge">
+                    <li class="telephone-form2" value="10"><span>10元</span></li>
+                    <li class="telephone-form2" value="20"><span>20元</span></li>
+                    <li class="telephone-form2" value="30"><span>30元</span></li>
+                    <li class="telephone-form2" value="50"><span>50元</span></li>
+                    <li class="telephone-form2" value="100"><span>100元</span></li>
+                    <li class="telephone-form2" value="300"><span>300元</span></li>
+                </ul>
+
+                <span class="telephone-form-span">请输入其他金额</span>
+
+                <ul class="telephone-form1">
+                    <li><input id="telephone-form3" type="text" class="telephone-form-input1 telephone-form3" ></li>
+                    <li>已选择充值金额，共计0元（享受返回0元）</li>
+                    <li class="mod-form-item-errorMsg formValidateMsg"></li>
+                    <li><input type="submit" class="btn1" value="立即充值"></li>
+
+                </ul>
+            </div-->
+
+            <div action="" class="telephone-form" >
+                  <span class="telephone-form-span" >选择地址</span>
+
+                <ul class="telephone-form1">
+                    <li>
+                        <select  id="counter" class="telephone-form-input1 "  >
+                            <option value="0">请选择</option>
+                            <option value="01">乌鲁木齐</option>
+                            <option value="02">克拉玛依</option>
+                            <option value="03">吐鲁番</option>
+                            <option value="04">哈密</option>
+                            <option value="05">昌吉</option>
+                            <option value="06">博州</option>
+                            <option value="07">巴州</option>
+                        </select>
+                    </li>
+                </ul>
+                <span class="telephone-form-span">固定电话号码</span>
+                
+                <ul class="telephone-form1">
+                    <li><input id="phone" type="text" class="telephone-form-input1"></li>
+                </ul>
+
+                <span class="telephone-form-span">请选择充值金额</span>
+
+                <ul class="telephone-form-recharge">
+                    <li class="telephone-form2" value="10"><span>10元</span></li>
+                    <li class="telephone-form2" value="20"><span>20元</span></li>
+                    <li class="telephone-form2" value="30"><span>30元</span></li>
+                    <li class="telephone-form2" value="50"><span>50元</span></li>
+                    <li class="telephone-form2" value="100"><span>100元</span></li>
+                    <li class="telephone-form2" value="300"><span>300元</span></li>
+                </ul>
+
+            </div>
+
+            <form action="" id="form">
+                <span class="telephone-form-span">请输入其他金额</span>
+
+                <ul class="telephone-form1">
+                    <li><input id="telephone-form3" type="text" class="telephone-form-input1 telephone-form3" value=""></li>
+                    <li>已选择充值金额，共计0元（享受返回0元）</li>
+                    <li  class="mod-form-item-errorMsg formValidateMsg"></li>
+                    <li><input type="submit" class="btn1" value="立即充值"></li>
+                </ul>
+            </form>
+            
+       </section>
+
+<style>
+.telephone-form-block{
+    display: block;
+}
+</style>
+
+
+        
+
+    </body>
+</html>
+<script src="js/validator.js"></script>
+<script src="js/zepto.js"></script>
+<script>
+
+/*var changeStyle = function (element, valu)
+{
+    element.value = valu;
+};
+window.onload = function ()
+{
+    var oBtn = document.getElementsByClassName("telephone-form2");
+    var oSpan = document.getElementById("telephone-form3");
+    var oVal = ["10元","20元","30元","40元","50元","60元"];
+
+    for (var i = 0; i < oBtn.length; i++)
+    {
+        oBtn[i].index = i;
+        oBtn[i].onclick = function ()
+        {
+            
+            changeStyle( oSpan, oVal[this.index])
+        }   
+    }
+};*/
+
+/*$(function(){
+    $('.telephone-form2').click(function(){
+      alert($(this).val()) ;
+       if($('#telephone-form3'))
+        
+        
+    })
+})*/
+
+$(document).ready(function(){
+
+
+    $('.telephone-nav1').click(function(e){
+        $('.telephone-form').eq($(this).index()).addClass('telephone-form-block').siblings().removeClass('telephone-form-block');
+        $('.telephone-form3').val('');
+
+        /*$('').hide().eq($(this).index()).show();*/
+       
+    }) ;
+
+    $('.telephone-form2').bind('click',function(event){
+        var valu = $(this).val();  
+        $('.telephone-form3').val(valu);
+       
+    });
+
+$(function(){
+    var validateForm = {
+        _validateInit : function(){
+            var me = this,
+                validateRules = {
+                    'ids' : {
+                        rules : ['required'],
+                        desc : '充值号码'
+                    },
+                    'city' : {
+                        rules : ['selectRequired'],
+                        desc : '城市'
+                    },
+                    'name' : {
+                        rules : ['required'],
+                        desc : '电话号码'
+                    },
+                    'counter' : {
+                        rules : ['selectRequired'],
+                        desc : '城市'
+                    },
+                    'phone' : {
+                        rules : ['required'],
+                        desc : '固定电话号码'
+                    }
+                };
+            this.validator = new Validator({
+                successCallback : me.validateSuccess,
+                errorCallback : me.validateError
+            });
+
+            this.validator.addRule('selectRequired',function(ele){
+                if(Number(ele.value) == '0'){
+                    return false;
+                } else {
+                    return true;
+                }
+            })
+
+            this.validator.addMsg('selectRequired','请您选择%s');
+
+            this.validator.init(validateRules);
+            this.validator.addRule;
+        },
+
+        validateSuccess : function(info , opt){
+
+        },
+        validateError : function(info,opt){
+            var me = this,
+                ele = $(".formValidateMsg");
+                if(ele.size() > 0){
+                    ele.show().html(info.msg)
+                } 
+                opt && opt.callback && callback();
+        }
+    };
+    var confirmTip;
+
+    validateForm._validateInit();
+
+    $("#form").on('submit',function(evt){
+        validateForm.validator.validateAll({
+            success : function(){
+
+            },
+            error : function(result){
+                evt.preventDefault();
+            }
+        },true);
+    })
+  
+   })
+})
+
+
+    
+
+
+
+/*window.onload = function ()
+{
+    var oLi = document.getElementsByClassName("telephone-nav1");
+    var oUl = document.getElementsByClassName("telephone-form");
+    
+    for(var i = 0; i < oLi.length; i++)
+    {
+        oLi[i].index = i;
+        oLi[i].onclick = function ()
+        {
+            
+            for(var n = 0; n < oUl.length; n++) oUl[n].style.display = "none";
+            oUl[this.index].style.display = "block"
+        }   
+    }
+}*/
+</script>
+

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+    <!--STATUS OK-->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>流量充值</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="format-detection" content="telephone=no, email=no" />
+        <meta name="full-screen" content="yes">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-touch-fullscreen" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+</head>
+<script type="text/javascript">
+            ;(function(win, lib) {
+                var doc = win.document;
+                var docEl = doc.documentElement;
+                var metaEl = doc.querySelector('meta[name="viewport"]');
+                var flexibleEl = doc.querySelector('meta[name="flexible"]');
+                var dpr = 0;
+                var scale = 0;
+                var tid;
+                var flexible = lib.flexible || (lib.flexible = {});
+
+                if (metaEl) {
+                    console.warn('将根据已有的meta标签来设置缩放比例');
+                    var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
+                    if (match) {
+                        scale = parseFloat(match[1]);
+                        dpr = parseInt(1 / scale);
+                    }
+                } else if (flexibleEl) {
+                    var content = flexibleEl.getAttribute('content');
+                    if (content) {
+                        var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);
+                        var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
+                        if (initialDpr) {
+                            dpr = parseFloat(initialDpr[1]);
+                            scale = parseFloat((1 / dpr).toFixed(2));
+                        }
+                        if (maximumDpr) {
+                            dpr = parseFloat(maximumDpr[1]);
+                            scale = parseFloat((1 / dpr).toFixed(2));
+                        }
+                    }
+                }
+
+
+
+                if (!dpr && !scale) {
+                    var isAndroid = win.navigator.appVersion.match(/android/gi);
+                    var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+                    var devicePixelRatio = win.devicePixelRatio;
+                    if (isIPhone) {
+                        // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+                        if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+                            dpr = 3;
+                        } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+                            dpr = 2;
+                        } else {
+                            dpr = 1;
+                        }
+                    } else {
+                        // 其他设备下，仍旧使用1倍的方 案
+                        dpr = 1;
+                    }
+                    scale = 1 / dpr;
+                }
+
+                docEl.setAttribute('data-dpr', dpr);
+                if (!metaEl) {
+                    metaEl = doc.createElement('meta');
+                    metaEl.setAttribute('name', 'viewport');
+                    metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+                    if (docEl.firstElementChild) {
+                        docEl.firstElementChild.appendChild(metaEl);
+                    } else {
+                        var wrap = doc.createElement('div');
+                        wrap.appendChild(metaEl);
+                        doc.write(wrap.innerHTML);
+                    }
+                }
+
+                function refreshRem(){
+                    var width = docEl.getBoundingClientRect().width;
+                    if (width / dpr > 540) {
+                        width = 540 * dpr;
+                    }
+                    // var rem = width / 10;
+                    var rem = width / 7.5;
+                    docEl.style.fontSize = rem + 'px';
+                    flexible.rem = win.rem = rem;
+                }
+
+                win.addEventListener('resize', function() {
+                    clearTimeout(tid);
+                    tid = setTimeout(refreshRem, 300);
+                }, false);
+                win.addEventListener('pageshow', function(e) {
+                    if (e.persisted) {
+                        clearTimeout(tid);
+                        tid = setTimeout(refreshRem, 300);
+                    }
+                }, false);
+
+                //  if (doc.readyState === 'complete') {
+                //     doc.body.style.fontSize = 12 * dpr + 'px';
+                // } e lse  {
+                //     doc.addEventListener('DOMContentLoaded', function(e) {
+                //         doc.body.style.fontSize = 12 * dpr + 'px';
+                //     }, false);
+                // }
+
+
+
+                refreshRem();
+
+                flexible.dpr = win.dpr = dpr;
+                flexible.refreshRem = refreshRem;
+                flexible.rem2px = function(d) {
+                    var val = parseFloat(d) * this.rem;
+                    if (typeof d === 'string' && d.match(/rem$/)) {
+                        val += 'px';
+                    }
+                    return val;
+                }
+                flexible.px2rem = function(d) {
+                    var val = parseFloat(d) / this.rem;
+                    if (typeof d === 'string' && d.match(/px$/)) {
+                        val += 'rem';
+                    }
+                    return val;
+                }
+
+            })(window, window['lib'] || (window['lib'] = {}));
+        </script>
+<style>* {
+    margin: 0;
+    padding: 0;
+
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+body {
+
+    font: 14px/1.8 "Helvetica Neue", "microsoft yahei";
+}
+
+.checkin {
+    box-sizing: border-box;
+    
+}
+
+
+.clearfix:after {
+    clear: both;
+    font-size: 0;
+    height: 0;
+    display: block;
+    visibility: hidden;
+    content: " ";
+    line-height: 0
+}
+
+.clearfix {
+    zoom: 1
+}
+
+
+/* for IE6 IE7 */
+
+.title {
+    height: .6rem;
+    font-size: .36rem;
+    border-bottom: 1px solid #333;
+    line-height: .6rem;
+    text-align: center;
+    margin-top: .2rem;
+}
+
+.title a {
+    display: inline-block;
+    text-align: center;
+    background: #42941a;
+    border-radius: 5px;
+    color: #fff;
+    text-decoration: none;
+    font-size: .28rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: .8rem;
+    line-height: .8rem;
+    left: 0;
+
+}
+.week{
+    width: 100%;
+    display: box;
+    display: -webkit-box;
+    text-align: center;
+    font-size: .28rem;
+    margin-top: .15rem;
+}
+.week li {
+    
+    width: 14.2%;
+}
+
+.calendarList{
+    width: 100%;
+    text-align: center;
+    font-size: .28rem;
+}
+.calendarList li{
+    line-height: .8rem;
+    height: .8rem;
+    float: left;
+}
+li.able-qiandao {
+    background: #e9c530;
+}
+
+
+
+.mask {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.55);
+    visibility: hidden;
+    transition: all 0.25s ease
+}
+
+.modal {
+    background: #fff;
+    border-radius: 10px;
+    position: absolute;
+    margin-top: -200px;
+    margin-left: -225px;
+    left: 50%;
+    top: 50%;
+    border: 5px solid #42941a;
+    box-sizing: border-box;
+    overflow: hidden;
+    transform: translateY(-200%);
+    transition: all 0.25s ease
+}
+
+a.closeBtn {
+    display: block;
+    position: absolute;
+    right: .1rem;
+    font-size: .2rem;
+    text-decoration: none;
+    font-weight: bolder;
+    color: #333
+}
+
+.title_h1 {
+    text-align: center;
+    font-size: .28rem;
+    padding-top: .2rem;
+    display: block;
+    width: 100%
+}
+
+
+
+.title_h1 em {
+    display: inline-block;
+    font-size: .3rem;
+    float: left;
+    margin-left: 10px;
+}
+
+.title_h1 i {
+    display: inline-block;
+    font-size: .28rem;
+    float: left;
+    margin: 14px 0 0 10px;
+}
+
+.title_h2 {
+    text-align: center;
+    font-size: .28rem;
+    display: block;
+    padding-top: 20px;
+}
+
+.title_h2 span {
+    font-size: .36rem;
+    color: #b25d06;
+}
+
+.trf {
+    visibility: visible;
+}
+
+.trf .modal {
+    transform: translateY(0);
+}</style>
+<body>
+    <div class="checkin"></div>
+
+
+
+<div class="mask">
+    <div class="modal">
+        <a href="#" class="closeBtn">×</a>
+        <h1 class="title_h1 clearfix">
+            <em>已签到</em> <i>您已签到2天</i>
+        </h1>
+        <h2 class="title_h2">您获得流量<span>2M</span></h2>
+    </div>
+</div>
+</body>
+</html>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script>;
+(function($) {
+    var Checkin = function(ele, options) {
+        this.ele = ele;
+        this.opt = options;
+        this.defaults = {
+            dateArray: [], // 假设已签到的天数+1
+        };
+        this.obj = $.extend({}, this.defaults, this.opt);
+    }
+    Checkin.prototype.init = function() {
+        var _self = this.ele,
+            html = '',
+            myDate = new Date(),
+            year = myDate.getFullYear(),
+            month = myDate.getMonth(),
+            day = myDate.getDate(),
+            weekText = ['日', '一', '二', '三', '四', '五', '六'];
+        _self.css({
+            width: this.obj.width + 'rem',
+            height: this.obj.height,
+            background: this.obj.background,
+            borderRadius: this.obj.radius,
+            color: this.obj.color,
+            padding: this.obj.padding
+        }).append("<div class='title'><p>" +  (month + 1) + '月' + day + '日' + "</p><a class=\'checkBtn\' href=\"javascript:;\">签到</a></div>");
+        $("<ul class='week clearfix'></ul><ul class='calendarList clearfix'></ul>").appendTo(_self);
+        for (var i = 0; i < 7; i++) {
+            _self.find(".week").append("<li>" + weekText[i] + "</li>")
+        };
+        for (var i = 0; i < 42; i++) {
+            html += "<li></li>"
+        };
+        _self.find(".calendarList").append(html);
+        var $li = _self.find(".calendarList").find("li");
+        _self.find(".calendarList li").css({
+            width: (_self.width() / 7) ,
+           
+            boxSizing: 'border-box',
+        });
+        $li.css({
+            width: (_self.width() / 7) ,
+    
+            boxSizing: 'border-box',
+        });
+        _self.find(".calendarList").find("li:nth-child(7n)").css('borderRight', 'none');
+        _self.find(".week li:nth-child(7n)").css('borderRight', 'none');
+        var monthFirst = new Date(year, month, 1).getDay();
+        var d = new Date(year, (month + 1), 0)
+        var totalDay = d.getDate(); //获取当前月的天数
+        for (var i = 0; i < totalDay; i++) {
+            $li.eq(i + monthFirst).html(i + 1);
+            $li.eq(i + monthFirst).addClass('data' + (i + 1))
+            if (isArray(this.obj.dateArray)) {
+                for (var j = 0; j < this.obj.dateArray.length; j++) {
+                    if (i == this.obj.dateArray[j]) {
+                        // 假设已经签到的
+                        $li.eq(i + monthFirst).addClass('checked');
+                    }
+                }
+            }
+        }
+        //$li.eq(monthFirst+day-1).css('background','#f7ca8e')
+        _self.find($(".data" + day)).addClass('able-qiandao');
+    }
+    var isChecked = false;
+    Checkin.prototype.events = function() {
+        var _self = this.ele;
+        var $li = _self.find(".calendarList").find("li");
+        $li.on('click', function(event) {
+            event.preventDefault();
+            /* Act on the event */
+            if ($(this).hasClass('able-qiandao')) {
+                $(this).addClass('checked');
+                modal(_self);
+                isChecked = true;
+            }
+        });
+        var checkBtn = _self.find(".checkBtn");
+        checkBtn.click(function(event) {
+            modal(_self);
+            _self.find('.able-qiandao').addClass('checked');
+            isChecked = true;
+        });
+    }
+    var modal = function(e) {
+        var mask = e.parents().find(".mask");
+        var close = e.parents().find(".closeBtn");
+        if (mask && !isChecked) {
+            mask.addClass('trf');
+        } else {
+            return
+        };
+        close.click(function(event) {
+            event.preventDefault();
+            mask.removeClass('trf')
+        });
+        e.parents().find('.checkBtn').text("已签到");
+    }
+    $.fn.Checkin = function(options) {
+        var checkin = new Checkin(this, options);
+        var obj = [checkin.init(), checkin.events()]
+        return obj
+    }
+    var isArray = function(arg) {
+        return Object.prototype.toString.call(arg) === '[object Array]';
+    };
+})(jQuery);
+// 插件调用
+$(".checkin").Checkin();
+// 元素居中显示，与插件无关，根本自己需要修改；
+</script>

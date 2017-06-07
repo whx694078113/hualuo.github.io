@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+    <!--STATUS OK-->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>流量充值</title>
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="format-detection" content="telephone=no, email=no" />
+        <meta name="full-screen" content="yes">
+        <meta name="x5-fullscreen" content="true">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-touch-fullscreen" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        
+
+
+        <script type="text/javascript">
+
+        ;(function(win, lib) {
+            var doc = win.document;
+            var docEl = doc.documentElement;
+            var metaEl = doc.querySelector('meta[name="viewport"]');
+            var flexibleEl = doc.querySelector('meta[name="flexible"]');
+            var dpr = 0;
+            var scale = 0;
+            var tid;
+            var flexible = lib.flexible || (lib.flexible = {});
+
+            if (metaEl) {
+                console.warn('将根据已有的meta标签来设置缩放比例');
+                var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
+                if (match) {
+                    scale = parseFloat(match[1]);
+                    dpr = parseInt(1 / scale);
+                }
+            } else if (flexibleEl) {
+                var content = flexibleEl.getAttribute('content');
+                if (content) {
+                    var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);
+                    var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
+                    if (initialDpr) {
+                        dpr = parseFloat(initialDpr[1]);
+                        scale = parseFloat((1 / dpr).toFixed(2));
+                    }
+                    if (maximumDpr) {
+                        dpr = parseFloat(maximumDpr[1]);
+                        scale = parseFloat((1 / dpr).toFixed(2));
+                    }
+                }
+            }
+
+            if (!dpr && !scale) {
+                var isAndroid = win.navigator.appVersion.match(/android/gi);
+                var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+                var devicePixelRatio = win.devicePixelRatio;
+                if (isIPhone) {
+                    // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+                    if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+                        dpr = 3;
+                    } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)){
+                        dpr = 2;
+                    } else {
+                        dpr = 1;
+                    }
+                } else {
+                    // 其他设备下，仍旧使用1倍的方案
+                    dpr = 1;
+                }
+                scale = 1 / dpr;
+            }
+
+            docEl.setAttribute('data-dpr', dpr);
+            if (!metaEl) {
+                metaEl = doc.createElement('meta');
+                metaEl.setAttribute('name', 'viewport');
+                metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+                if (docEl.firstElementChild) {
+                    docEl.firstElementChild.appendChild(metaEl);
+                } else {
+                    var wrap = doc.createElement('div');
+                    wrap.appendChild(metaEl);
+                    doc.write(wrap.innerHTML);
+                }
+            }
+
+            function refreshRem(){
+                var width = docEl.getBoundingClientRect().width;
+                if (width / dpr > 540) {
+                    width = 540 * dpr;
+                }
+                // var rem = width / 10;
+                var rem = width / 7.5;
+                docEl.style.fontSize = rem + 'px';
+                flexible.rem = win.rem = rem;
+            }
+
+            win.addEventListener('resize', function() {
+                clearTimeout(tid);
+                tid = setTimeout(refreshRem, 300);
+            }, false);
+            win.addEventListener('pageshow', function(e) {
+                if (e.persisted) {
+                    clearTimeout(tid);
+                    tid = setTimeout(refreshRem, 300);
+                }
+            }, false);
+
+            // if (doc.readyState === 'complete') {
+            //     doc.body.style.fontSize = 12 * dpr + 'px';
+            // } else {
+            //     doc.addEventListener('DOMContentLoaded', function(e) {
+            //         doc.body.style.fontSize = 12 * dpr + 'px';
+            //     }, false);
+            // }
+
+
+            refreshRem();
+
+            flexible.dpr = win.dpr = dpr;
+            flexible.refreshRem = refreshRem;
+            flexible.rem2px = function(d) {
+                var val = parseFloat(d) * this.rem;
+                if (typeof d === 'string' && d.match(/rem$/)) {
+                    val += 'px';
+                }
+                return val;
+            }
+            flexible.px2rem = function(d) {
+                var val = parseFloat(d) / this.rem;
+                if (typeof d === 'string' && d.match(/px$/)) {
+                    val += 'rem';
+                }
+                return val;
+            }
+
+        })(window, window['lib'] || (window['lib'] = {}));
+
+        </script>
+    <link rel="stylesheet" type="text/css" href="css/global.css"/>
+    </head>
+    <body>
+       
+       <section class="flow-phone-inquiry">
+            <span class="top-title">米兜流量-流量充值</span>
+
+            <ul class="flow-phone-inquiry1">
+                <li>
+                    <label class="flow-phone-label-1" for="">中国+86</label>
+                    <input id="phone" class="flow-phone-input-1" type="text" placeholder="请输入手机号码">
+                </li>
+                <li>
+                    <label class="flow-phone-label-1" for="">号码归属</label>
+                    <input class="flow-phone-input-1" type="text" placeholder="请输入手机号码">
+                </li>
+            </ul>
+            
+            <ul class="flow-recharge">
+                <li class="flow-recharge1" value="2"><span class="flow-value">20M</span></li>
+                <li class="flow-recharge1" value="4"><span class="flow-value">30M</span></li>
+                <li class="flow-recharge1" value="6"><span class="flow-value">50M</span></li>
+                <li class="flow-recharge1" value="8"><span class="flow-value">70M</span></li>
+                <li class="flow-recharge1" value="10"><span class="flow-value">100M</span></li>
+                <li class="flow-recharge1" value="12"><span class="flow-value">200M</span></li>
+                <li class="flow-recharge1" value="14"><span class="flow-value">300M</span></li>
+                <li class="flow-recharge1" value="16"><span class="flow-value">500M</span></li>
+                <li class="flow-recharge1" value="18"><span class="flow-value">600M</span></li>
+                <li class="flow-recharge1" value="20"><span class="flow-value">1G</span></li>
+                <li class="flow-recharge1" value="22"><span class="flow-value">2G</span></li>
+                <li class="flow-recharge1" value="24"><span class="flow-value">3G</span></li>
+                <li class="flow-recharge1" value="26"><span class="flow-value">5G</span></li>
+                <li class="flow-recharge1" value="28"><span class="flow-value">6G</span></li>
+            </ul>
+            
+
+            <span id="formValidateMsg" class="mod-form-item-errorMsg mod-form-item-3"></span>
+       </section>
+
+        
+
+        <article class="index-fixed">
+            <section class="flow-nav1">现价&nbsp;￥<span id="flow-value-rate">0</span>&nbsp;元</section>
+            <section class="flow-nav2">立即充值</section>
+        </article>
+
+<style>
+#formValidateMsg{
+    height: .6rem;
+    font-size: .28rem;
+    color: red;
+    width: 100%;
+    margin-top: .6rem;
+}
+.mod-form-item-3{
+    position: relative;
+    border-bottom: 1px solid #eee; 
+    display: -moz-box; /* Firefox */
+    display: -webkit-box; /* Safari and Chrome */
+    display: box;
+    padding: .1rem 0;
+    font-size: .28rem;
+    color: #565656;
+    margin: 0 .25rem;
+    box-sizing: border-box;
+}
+.flow-recharge1{
+    height: 1rem;
+    line-height: 1rem;
+}
+
+</style>
+<script src="js/validator.js"></script>
+<script src="js/zepto.js"></script>
+    <script>
+$(document).ready(function(){
+    $('.flow-recharge1').bind('click',function(){
+        var valu = $(this).val();
+        $('#flow-value-rate').html(valu);
+    })
+
+
+    $(function(){
+        var validateForm = {
+            _validateInit: function(){
+                var me = this,
+                    validateRules = {
+                        'phone': {
+                            rules: ['required','phone'],
+                            desc: '手机号码'
+                        }
+                    };
+                this.validator = new Validator({
+                    successCallback : me.validateSuccess,
+                    errorCallback : me.validateError
+                });
+
+                this.validator.addRule('selectRequired',function(ele){
+                    if(Number(ele.value) == '0'){
+                        return false;
+                    } else{
+                        return true;
+                    }
+                })
+                this.validator.addMsg('selectRequired','请您输入%');
+
+                this.validator.init(validateRules);
+                this.validator.addRule();
+            },
+
+            validateSuccess : function(info,opt){
+
+            },
+            validateError : function(info,opt){
+                var me = this,
+                    ele = $("#formValidateMsg");
+                if(ele.size()>0){
+                    ele.show().html(info.msg)
+                }
+                opt && opt.callback && callback();
+            }
+        };
+        var confirmTip;
+
+        validateForm._validateInit();
+
+        $(".flow-nav2").on('click',function(evt){
+            validateForm.validator.validateAll({
+                success : function(){
+  
+                },
+                error : function(result){
+                    evt.preventDefault();
+                }
+            },true);
+        })
+    })
+
+})
+
+
+
+/*var changeStyle = function (element, value)
+{
+    element.innerHTML = value;
+};
+window.onload = function ()
+{
+    var oBtn = document.getElementsByClassName("flow-value");
+    var oSpan = document.getElementById("flow-value-rate");
+    var oVal = ["2","4","6","8","10","12","14","16","18","20","22","24","26","28","30"];
+
+    for (var i = 0; i < oBtn.length; i++)
+    {
+        oBtn[i].index = i;
+        oBtn[i].onclick = function ()
+        {
+            
+            changeStyle( oSpan, oVal[this.index])
+        }   
+    }
+};
+*/
+    </script>
+    </body>
+</html>
